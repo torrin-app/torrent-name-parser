@@ -17,24 +17,32 @@ func (p *parser) GetGroup() string {
 	if group != "" {
 		return group
 	}
-	group = p.FindString("group", groupEnd, FindStringOptions{Handler: func(str string) string {
-		name := strings.TrimPrefix(str, "-")
-		name = strings.TrimPrefix(name, " ")
-		return name
-	}})
+	group = p.FindString("group", groupEnd, FindStringOptions{
+		Handler: func(str string) string {
+			name := strings.TrimPrefix(str, "-")
+			name = strings.TrimPrefix(name, " ")
+			return name
+		},
+	})
 	if group != "" {
 		return group
 	}
-	group = p.FindString("group", groupStart, FindStringOptions{Handler: func(str string) string {
-		return strings.TrimSuffix(str, "-")
-	}})
+
+	group = p.FindString("group", groupStart, FindStringOptions{
+		Handler: func(str string) string {
+			return strings.TrimSuffix(str, "-")
+		},
+	})
 	if group != "" {
 		return group
 	}
-	group = p.FindString("group", groupBracketStart, FindStringOptions{Handler: func(str string) string {
-		name := strings.TrimPrefix(str, "[")
-		name = strings.TrimSuffix(name, "]")
-		return name
-	}})
+
+	group = p.FindString("group", groupBracketStart, FindStringOptions{
+		Handler: func(str string) string {
+			name := strings.TrimPrefix(str, "[")
+			name = strings.TrimSuffix(name, "]")
+			return name
+		},
+	})
 	return group
 }

@@ -15,9 +15,11 @@ func init() {
 }
 
 func (p *parser) GetSource() string {
-	source := p.FindString("sourceGeneral", sourceGeneral, FindStringOptions{Handler: func(str string) string {
-		return strings.ToLower(str)
-	}})
+	source := p.FindString("sourceGeneral", sourceGeneral, FindStringOptions{
+		Handler: func(str string) string {
+			return strings.ToLower(str)
+		},
+	})
 	if source != "" {
 		return source
 	}

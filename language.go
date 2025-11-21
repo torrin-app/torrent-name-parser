@@ -10,12 +10,14 @@ var (
 )
 
 func (p *parser) GetLanguages() []string {
-	return p.FindStrings("languages", languageGeneral, FindStringsOptions{Handler: func(strs []string) []string {
-		lowerStrs := make([]string, len(strs))
-		for i, str := range strs {
-			lowerStrs[i] = strings.ToLower(str)
-		}
+	return p.FindStrings("languages", languageGeneral, FindStringsOptions{
+		Handler: func(strs []string) []string {
+			lowerStrs := make([]string, len(strs))
+			for i, str := range strs {
+				lowerStrs[i] = strings.ToLower(str)
+			}
 
-		return lowerStrs
-	}})
+			return lowerStrs
+		},
+	})
 }

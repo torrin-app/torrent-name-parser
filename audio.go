@@ -15,12 +15,15 @@ var (
 )
 
 func (p *parser) GetAudio() string {
-	audio := p.FindString("audio", audioGeneral, FindStringOptions{Handler: func(resStr string) string {
-		return strings.ToLower(resStr)
-	}})
+	audio := p.FindString("audio", audioGeneral, FindStringOptions{
+		Handler: func(resStr string) string {
+			return strings.ToLower(resStr)
+		},
+	})
 	if audio != "" {
 		return audio
 	}
+
 	audio = p.FindString("audio", audioAc3, FindStringOptions{Value: "ac3"})
 	if audio != "" {
 		return audio

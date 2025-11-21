@@ -450,6 +450,15 @@ func TestParser_Parse(t *testing.T) {
 				Season:      -1,
 			},
 		},
+		{
+			name: "2001 A Space Odyssey.mkv",
+			want: Torrent{
+				Title:       "2001 A Space Odyssey",
+				ContentType: Movie,
+				Season:      -1,
+				Container:   "mkv",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

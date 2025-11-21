@@ -14,9 +14,11 @@ func init() {
 }
 
 func (p *parser) GetDate() string {
-	return p.FindString("date", dateDate, FindStringOptions{Handler: func(s string) string {
-		return strings.ReplaceAll(s, ".", "-")
-	}})
+	return p.FindString("date", dateDate, FindStringOptions{
+		Handler: func(s string) string {
+			return strings.ReplaceAll(s, ".", "-")
+		},
+	})
 }
 
 func (p *parser) GetYear() int {

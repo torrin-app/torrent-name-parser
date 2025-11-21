@@ -13,7 +13,9 @@ var (
 )
 
 func (p *parser) GetCodec() string {
-	return p.FindString("codec", codecGeneral, FindStringOptions{Handler: func(str string) string {
-		return strings.ToLower(codecRemove.ReplaceAllString(str, ""))
-	}})
+	return p.FindString("codec", codecGeneral, FindStringOptions{
+		Handler: func(str string) string {
+			return strings.ToLower(codecRemove.ReplaceAllString(str, ""))
+		},
+	})
 }

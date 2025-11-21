@@ -62,7 +62,7 @@ type Torrent struct {
 	Date             string      `json:"date"`
 }
 
-func (t *Torrent) Scan(value interface{}) error {
+func (t *Torrent) Scan(value any) error {
 	switch v := value.(type) {
 	case string:
 		return json.Unmarshal([]byte(v), t)
@@ -84,7 +84,7 @@ func (t Torrent) Value() (driver.Value, error) {
 type parser struct {
 	Name            string
 	MatchedIndicies map[string]index
-	LowestIndex     int
+	LowestIndex     int // Lowest index out of all the matches in the string
 	LowestWasZero   bool
 }
 
@@ -153,14 +153,19 @@ func (p *parser) Parse() (Torrent, error) {
 		delete(p.MatchedIndicies, "episode")
 	}
 
-	// LAST
-	torrent.Title, torrent.AlternativeTitle = p.GetTitles()
-
 	if torrent.Episode > 0 || torrent.Date != "" || torrent.Season > -1 {
 		torrent.ContentType = TV
 	} else if torrent.Season == -1 && torrent.Episode == 0 {
 		torrent.ContentType = Movie
 	}
+
+	if yearOk && torrent.ContentType == Movie && yearIndex.Start < p.LowestIndex {
+		torrent.Year = 0
+		delete(p.MatchedIndicies, "year")
+	}
+
+	// LAST
+	torrent.Title, torrent.AlternativeTitle = p.GetTitles()
 
 	return torrent, nil
 }

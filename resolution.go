@@ -35,15 +35,19 @@ func (r Resolution) Verify() bool {
 }
 
 func (p *parser) GetResolution() Resolution {
-	resolution := p.FindString("resolution", resolutionX, FindStringOptions{Handler: func(str string) string {
-		return strings.ToLower(str) + "p"
-	}})
+	resolution := p.FindString("resolution", resolutionX, FindStringOptions{
+		Handler: func(str string) string {
+			return strings.ToLower(str) + "p"
+		},
+	})
 	if resolution != "" {
 		return Resolution(resolution)
 	}
-	resolution = p.FindString("resolution", resolutionGeneral, FindStringOptions{Handler: func(str string) string {
-		return strings.ToLower(str)
-	}})
+	resolution = p.FindString("resolution", resolutionGeneral, FindStringOptions{
+		Handler: func(str string) string {
+			return strings.ToLower(str)
+		},
+	})
 	if resolution != "" {
 		return Resolution(resolution)
 	}
