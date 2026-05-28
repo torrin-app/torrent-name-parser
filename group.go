@@ -8,7 +8,7 @@ import (
 var (
 	groupDZon3        = regexp.MustCompile(`(?i)D-Z0N3`)
 	groupEnd          = regexp.MustCompile(`(?i)- ?([^\-. ]+)(?:\.\w+)?$`)
-	groupStart        = regexp.MustCompile(`(?i)^(\w+-)`)
+	groupStart        = regexp.MustCompile(`(?i)^(\w+-)\s`)
 	groupBracketStart = regexp.MustCompile(`(?i)^(\[[^\]]+\])`)
 )
 

@@ -1,4 +1,4 @@
-module github.com/ProfChaos/torrent-name-parser
+module github.com/torrin-app/torrent-name-parser
 
 go 1.25
 
