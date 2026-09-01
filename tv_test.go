@@ -1,6 +1,7 @@
 package torrentparser
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -181,6 +182,27 @@ func TestParser_GetEpisode(t *testing.T) {
 			p, _ := ParseName(tt.name)
 			if got := p.Episode; got != tt.want {
 				t.Errorf("Parser.GetEpisode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestParser_GetEpisodes(t *testing.T) {
+	tests := []struct {
+		name string
+		want []int
+	}{
+		{name: "Show.S01E01.1080p.WEB-DL-GRP", want: []int{1}},
+		{name: "Show.S01E01-E05.1080p.WEB-DL-GRP", want: []int{1, 2, 3, 4, 5}},
+		{name: "Show.S01E01E02E03.1080p.WEB-DL-GRP", want: []int{1, 2, 3}},
+		{name: "Show S02E10 720p HDTV x264", want: []int{10}},
+		{name: "28.Days.Later.2002.2160p.BluRay-GRP", want: nil},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p, _ := ParseName(tt.name)
+			if !reflect.DeepEqual(p.Episodes, tt.want) {
+				t.Errorf("Episodes = %v, want %v", p.Episodes, tt.want)
 			}
 		})
 	}

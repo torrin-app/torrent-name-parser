@@ -80,6 +80,7 @@ func TestParser_Parse(t *testing.T) {
 				Season:      5,
 				Seasons:     []int{5},
 				Episode:     10,
+				Episodes:    []int{10},
 				Source:      "bluray",
 				Codec:       "x264",
 				Group:       "GAnGSteR",
@@ -211,6 +212,7 @@ func TestParser_Parse(t *testing.T) {
 				Season:      3,
 				Seasons:     []int{3},
 				Episode:     38,
+				Episodes:    []int{38},
 				ColorDepth:  "10-bit",
 				ContentType: TV,
 			},
@@ -223,6 +225,7 @@ func TestParser_Parse(t *testing.T) {
 				Codec:       "x264",
 				Container:   "mp4",
 				Episode:     33,
+				Episodes:    []int{33},
 				Group:       "Ohys-Raws",
 				Resolution:  "720p",
 				Title:       "JoJo no Kimyou na Bouken Ougon no Kaze",
@@ -235,6 +238,7 @@ func TestParser_Parse(t *testing.T) {
 				Season:      -1,
 				Container:   "mkv",
 				Episode:     111,
+				Episodes:    []int{111},
 				Group:       "HorribleSubs",
 				Resolution:  "720p",
 				Title:       "Boruto - Naruto Next Generations",
@@ -247,6 +251,7 @@ func TestParser_Parse(t *testing.T) {
 				Codec:       "x264",
 				Container:   "mkv",
 				Episode:     5,
+				Episodes:    []int{5},
 				Group:       "AVS",
 				Resolution:  "720p",
 				Season:      6,
@@ -307,6 +312,7 @@ func TestParser_Parse(t *testing.T) {
 				Group:       "null",
 				Resolution:  "720p",
 				Episode:     1,
+				Episodes:    []int{1},
 				Season:      8,
 				Seasons:     []int{8},
 				Source:      "web-dl",
@@ -341,6 +347,7 @@ func TestParser_Parse(t *testing.T) {
 				Group:       "SubsPlease",
 				Season:      -1,
 				Episode:     106,
+				Episodes:    []int{106},
 			},
 		},
 		{
@@ -506,7 +513,7 @@ func TestContentType(t *testing.T) {
 func TestTorrentScanAndValue(t *testing.T) {
 	var torrent Torrent
 
-	jsonStr := `{"title":"Pirates of the Caribbean Dead Mans Chest","alternativeTitle":"","contentType":0,"year":0,"resolution":"4k","extended":false,"unrated":false,"proper":false,"repack":false,"convert":false,"hardcoded":false,"retail":false,"remastered":false,"region":"","container":"mkv","source":"web-dl","codec":"hevc","audio":"dts-hd","group":"WATCHER","season":-1,"seasons":null,"episode":0,"languages":null,"hdr":true,"hdrTypes":null,"colorDepth":"","date":""}`
+	jsonStr := `{"title":"Pirates of the Caribbean Dead Mans Chest","alternativeTitle":"","contentType":0,"year":0,"resolution":"4k","extended":false,"unrated":false,"proper":false,"repack":false,"convert":false,"hardcoded":false,"retail":false,"remastered":false,"region":"","container":"mkv","source":"web-dl","codec":"hevc","audio":"dts-hd","group":"WATCHER","season":-1,"seasons":null,"episode":0,"episodes":null,"languages":null,"hdr":true,"hdrTypes":null,"colorDepth":"","date":""}`
 
 	err := torrent.Scan(jsonStr)
 	if err != nil {

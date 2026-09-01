@@ -55,6 +55,7 @@ type Torrent struct {
 	Season           int         `json:"season"`
 	Seasons          []int       `json:"seasons"`
 	Episode          int         `json:"episode"`
+	Episodes         []int       `json:"episodes"`
 	Languages        []string    `json:"languages"`
 	Hdr              bool        `json:"hdr"`
 	HdrTypes         []string    `json:"hdrTypes"`
@@ -139,6 +140,7 @@ func (p *parser) Parse() (Torrent, error) {
 		torrent.Season = torrent.Seasons[0]
 	}
 	torrent.Episode = p.GetEpisode()
+	torrent.Episodes = p.getEpisodes(torrent.Episode)
 	torrent.Unrated = p.GetUnrated()
 	torrent.HdrTypes, torrent.Hdr = p.Hdr()
 	torrent.ColorDepth = p.GetColorDepth()
@@ -149,6 +151,7 @@ func (p *parser) Parse() (Torrent, error) {
 	episodeIndex, epOk := p.MatchedIndicies["episode"]
 	if yearOk && epOk && yearIndex.Start > episodeIndex.Start && torrent.Season == -1 {
 		torrent.Episode = 0
+		torrent.Episodes = nil
 		p.LowestIndex = yearIndex.Start
 		delete(p.MatchedIndicies, "episode")
 	}

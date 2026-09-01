@@ -24,6 +24,11 @@ var (
 	episodeEpisode = regexp.MustCompile(`(?i)[ée]p(?:isode)?[. _-]?([0-9]{1,3})`)
 	episodeAnime   = regexp.MustCompile(`(?i)- ([0-9]{1,3}) (?:\[|\()`)
 	episodeX       = regexp.MustCompile(`(?i)[0-9]{1,2}x([0-9]{1,2})`)
+
+	// Episode ranges (ie, S01E01-E05, E01-05) and multi-episode packs (ie, S01E01E02E03)
+	episodeRange = regexp.MustCompile(`(?i)(?:s\d{1,2}[. _-]?)?e(\d{1,3})[. _-]*(?:-|to|thru|&|\+)[. _-]*e?(\d{1,3})`)
+	episodeMulti = regexp.MustCompile(`(?i)(?:e\d{2,3}[. _-]?){2,}`)
+	episodeNum   = regexp.MustCompile(`(?i)e(\d{1,3})`)
 )
 
 func (p *parser) GetSeasons() []int {
@@ -72,6 +77,35 @@ func (p *parser) GetEpisode() int {
 		return episode
 	}
 	return p.FindNumber("episode", episodeX, FindNumberOptions{})
+}
+
+// getEpisodes returns every episode a name refers to: an inclusive range
+// (S01E01-E05), a multi-episode pack (S01E01E02E03), or the single episode
+// already parsed. It takes the single value to avoid re-running the stateful
+// episode matcher.
+func (p *parser) getEpisodes(single int) []int {
+	if m := episodeRange.FindStringSubmatch(p.Name); m != nil {
+		start, _ := strconv.Atoi(m[1])
+		end, _ := strconv.Atoi(m[2])
+		if end > start {
+			return intRange(start, end)
+		}
+	}
+	if run := episodeMulti.FindString(p.Name); run != "" {
+		var eps []int
+		for _, e := range episodeNum.FindAllStringSubmatch(run, -1) {
+			if n, err := strconv.Atoi(e[1]); err == nil {
+				eps = append(eps, n)
+			}
+		}
+		if len(eps) > 1 {
+			return eps
+		}
+	}
+	if single > 0 {
+		return []int{single}
+	}
+	return nil
 }
 
 // potentialSeasonListToInts attempts to parse a season list separated by an unknown
